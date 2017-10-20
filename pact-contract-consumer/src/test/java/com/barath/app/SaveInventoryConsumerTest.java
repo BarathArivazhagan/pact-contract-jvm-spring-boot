@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class SaveInventoryPactTest{
+public class SaveInventoryConsumerTest{
 	
     @Rule
     public PactProviderRuleMk2 mockProvider = new PactProviderRuleMk2("test_provider",PactSpecVersion.V3, this);

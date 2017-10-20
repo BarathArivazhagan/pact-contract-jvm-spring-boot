@@ -22,6 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<pact.version>3.5.7</pact.version>
 	</properties>
 
 	<dependencies>
@@ -44,8 +45,15 @@
 	<dependency>
 	    <groupId>au.com.dius</groupId>
 	    <artifactId>pact-jvm-provider-junit_2.11</artifactId>
-	    <version>3.5.7</version>
+	    <version>${pact.version}</version>
+	     <scope>test</scope>
 	</dependency>
+	 <dependency>
+			    <groupId>au.com.dius</groupId>
+			    <artifactId>pact-jvm-provider-spring_2.11</artifactId>
+			    <version>${pact.version}</version>
+			     <scope>test</scope>
+			</dependency>
 		
 	</dependencies>
 
@@ -55,44 +63,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		<!-- 	<plugin>
-        <groupId>au.com.dius</groupId>
-        <artifactId>pact-jvm-provider-maven_2.11</artifactId>
-        <version>3.5.7</version>
-        <configuration>
-        	<pactBrokerUrl>https://pact-broker-test.magellancloud.com</pactBrokerUrl>
-      <serviceProviders>
-        <serviceProvider>
-          <name>inventory_message_provider</name>
-          <verificationType>ANNOTATED_METHOD</verificationType>
-          packagesToScan is optional, but leaving it out will result in the entire
-          test classpath being scanned. Set it to the packages where your annotated test method
-          can be found.
-          <pactBroker>
-              <url>https://pact-broker-test.magellancloud.com</url>
-              
-          </pactBroker>
-          <packagesToScan>
-              <packageToScan>com.accn.ppes.magellan.pacts</packageToScan>
-          </packagesToScan>
-          <consumers>
-            <consumer>
-              <name>microservice_pact_consumer</name>
-              <pactFile>src/main/resources/messagepact.json</pactFile>
-            </consumer>
-          </consumers>
-        </serviceProvider>
-      </serviceProviders>
-       <classpathElements>
-        <classpathElement>
-          src/test/java
-      </classpathElement>
-    </classpathElements>
-        <configuration>
-        <pact.showStacktrace>true</pact.showStacktrace>
-    </configuration>
-    </configuration>
-    </plugin> -->
+		
 		</plugins>
 	</build>
 
