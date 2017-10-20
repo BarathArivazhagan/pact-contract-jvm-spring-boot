@@ -60,7 +60,7 @@ public class SaveInventoryConsumerTest{
     private RestTemplate restTemplate=new RestTemplate();
 
 
-    @Pact(provider = "inventory_provider", consumer = "inventory_consumer")
+    <span style="color:red">@Pact(provider = "inventory_provider", consumer = "inventory_consumer")</span>
     public RequestResponsePact createPact(PactDslWithProvider builder) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
