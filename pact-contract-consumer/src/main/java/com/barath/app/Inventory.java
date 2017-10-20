@@ -2,7 +2,6 @@ package com.barath.app;
 
 public class Inventory {
 	
-	private Long inventoryId;
 	
 	private String productName;
 	
@@ -10,13 +9,7 @@ public class Inventory {
 	
 	private int quantity;
 
-	public Long getInventoryId() {
-		return inventoryId;
-	}
-
-	public void setInventoryId(Long inventoryId) {
-		this.inventoryId = inventoryId;
-	}
+	
 
 	public String getProductName() {
 		return productName;
@@ -42,9 +35,9 @@ public class Inventory {
 		this.quantity = quantity;
 	}
 
-	public Inventory(Long inventoryId, String productName, String locationName, int quantity) {
+	public Inventory( String productName, String locationName, int quantity) {
 		super();
-		this.inventoryId = inventoryId;
+		
 		this.productName = productName;
 		this.locationName = locationName;
 		this.quantity = quantity;
@@ -57,7 +50,7 @@ public class Inventory {
 
 	@Override
 	public String toString() {
-		return "Inventory [inventoryId=" + inventoryId + ", productName=" + productName + ", locationName="
+		return "Inventory [productName=" + productName + ", locationName="
 				+ locationName + ", quantity=" + quantity + "]";
 	}
 	

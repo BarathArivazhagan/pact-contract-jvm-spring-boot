@@ -22,8 +22,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.barath.app.Inventory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 
-
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,11 +34,11 @@ import java.util.Map;
 public class SaveInventoryConsumerTest{
 	
     @Rule
-    public PactProviderRuleMk2 mockProvider = new PactProviderRuleMk2("test_provider",PactSpecVersion.V3, this);
+    public PactProviderRuleMk2 mockProvider = new PactProviderRuleMk2("inventory_provider",PactSpecVersion.V3, this);
     private RestTemplate restTemplate=new RestTemplate();
-    private ObjectMapper mapper=new ObjectMapper();
 
-    @Pact(provider = "test_provider", consumer = "test_consumer")
+
+    @Pact(provider = "inventory_provider", consumer = "inventory_consumer")
     public RequestResponsePact createPact(PactDslWithProvider builder) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
@@ -45,9 +46,7 @@ public class SaveInventoryConsumerTest{
 
         PactDslJsonBody bodyResponse = new PactDslJsonBody()
                 .stringValue("productName", "TV")
-                .stringValue("locationName", "CHENNAI")
-                .stringType("locationName", "CHENNAI")
-                .integerType("inventoryId", 1L)
+                 .stringType("locationName", "CHENNAI")               
                 .integerType("quantity", 100);
 
         return builder.given("create inventory").uponReceiving("a request to save inventory")
@@ -65,15 +64,16 @@ public class SaveInventoryConsumerTest{
 	
 	@Test
 	@PactVerification
-	public void runTest() throws IOException {
+	public void testCreateInventoryConsumer() throws IOException {
 		
-		Inventory inventory=new Inventory(1L, "TV", "CHENNAI", 100);
+		Inventory inventory=new Inventory("TV", "CHENNAI", 100);
     	HttpHeaders headers=new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
     	HttpEntity<Object> request=new HttpEntity<Object>(inventory, headers);
     	ResponseEntity<String> responseEntity=restTemplate.postForEntity(mockProvider.getUrl()+"/api/inventory", request, String.class);
-    	Inventory savedInventory=mapper.readValue( responseEntity.getBody(),Inventory.class);
-		
+    	assertEquals("TV", JsonPath.read(responseEntity.getBody(),"$.productName"));
+    	assertEquals("CHENNAI", JsonPath.read(responseEntity.getBody(),"$.locationName"));
+    	assertEquals((Integer)100, (Integer)JsonPath.read(responseEntity.getBody(),"$.quantity"));
 	}
 
 }
