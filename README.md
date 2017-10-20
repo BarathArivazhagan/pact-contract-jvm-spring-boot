@@ -7,10 +7,10 @@
 
 ### Start with consumer : As it is consumer driven contracts. 
 
-##### step 1: Add below dependencies in pom.xml
+##### Step 1: Add below dependencies in pom.xml
 
 ```
-    <dependency>
+                <dependency>
 		    <groupId>au.com.dius</groupId>
 		    <artifactId>pact-jvm-consumer-junit_2.11</artifactId>
 		    <version>3.5.7</version>
@@ -26,16 +26,17 @@
                 <version>3.5.7</version>
                 <configuration>
                    <pactBrokerUrl>http://localhost:8500</pactBrokerUrl>
-				            	<pactDirectory>target/pacts</pactDirectory>               
+		   <pactDirectory>target/pacts</pactDirectory>               
                 </configuration>
-        </plugin>
+            </plugin>
 
 ```
 
-#### step 3: Write the consumer contract as in below exmaple: 
+#### Step 3: Write the consumer contract as in below exmaple: 
 
 ```
-@Rule
+public class SaveInventoryConsumerTest{
+    @Rule
     public PactProviderRuleMk2 mockProvider = new PactProviderRuleMk2("inventory_provider",PactSpecVersion.V3, this);
     private RestTemplate restTemplate=new RestTemplate();
 
@@ -81,12 +82,56 @@
 
 ```
 
-#### step 4: Run maven build to publish the pacts to the pact broker 
+#### Step 4: Run maven build to publish the pacts to the pact broker 
 ```
 mvn clean install pact:publish
 ```
 
-#### step 5: Now go to pact provider application and write the pact provider test case 
+#### Step 5: Now go to pact provider application and add the below dependencies
+
+```
+	<dependency>
+	    <groupId>au.com.dius</groupId>
+	    <artifactId>pact-jvm-provider-junit_2.11</artifactId>
+	    <version>${pact.version}</version>
+	    <scope>test</scope>
+	</dependency>
+	 <dependency>
+	    <groupId>au.com.dius</groupId>
+	    <artifactId>pact-jvm-provider-spring_2.11</artifactId>
+	    <version>${pact.version}</version>
+	    <scope>test</scope>
+	</dependency>
+ 
+
+```
+
+#### Step 6: Now add the pact provider test case to test against the pacts from the pact broker 
+
+```
+@RunWith(SpringRestPactRunner.class)
+@SpringBootTest(classes=PactContractProviderApplication.class,properties={"spring.profiles.active=test","spring.cloud.config.enabled=false"},webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
+@PactBroker(host="localhost",port="8500")
+@Provider("inventory_provider")
+public class InventoryProviderTest {
+	
+	@MockBean
+	private InventoryService inventoryService;
+
+  @TestTarget
+  public final Target target = new HttpTarget(9050);
+  
+  @State(value="create inventory")
+  public void createInventoryState() throws Exception{
+	  
+	  Inventory inventory=new Inventory("TV", "CHENNAI", 100);
+	  when(inventoryService.saveInventory(any(Inventory.class))).thenReturn(inventory) ;
+  }
+}
+ 
+```
+#### Notes: 
 
 
 
