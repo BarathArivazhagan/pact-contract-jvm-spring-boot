@@ -17,7 +17,7 @@
 </table>
 
 
-### Start with consumer : As it is consumer driven contracts. 
+### Start with consumer first : As it is consumer driven contract framework. 
 
 ##### Step 1: Add below dependencies in pom.xml
 
