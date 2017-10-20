@@ -9,32 +9,27 @@ import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 
 import au.com.dius.pact.consumer.PactProviderRuleMk2;
 import au.com.dius.pact.consumer.PactVerification;
-import au.com.dius.pact.model.PactFragment;
 import au.com.dius.pact.model.PactSpecVersion;
 import au.com.dius.pact.model.RequestResponsePact;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.barath.app.Inventory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import static org.hamcrest.Matchers.equalTo;
 
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@RunWith(SpringRunner.class)
+
 public class SaveInventoryPactTest{
 	
     @Rule
@@ -45,7 +40,7 @@ public class SaveInventoryPactTest{
     @Pact(provider = "test_provider", consumer = "test_consumer")
     public RequestResponsePact createPact(PactDslWithProvider builder) {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", "application/json;charset=UTF-8");
+        headers.put("Content-Type", MediaType.APPLICATION_JSON_UTF8_VALUE);
 
 
         PactDslJsonBody bodyResponse = new PactDslJsonBody()
@@ -55,7 +50,7 @@ public class SaveInventoryPactTest{
                 .integerType("inventoryId", 1L)
                 .integerType("quantity", 100);
 
-        return builder.uponReceiving("a request to save inventory")
+        return builder.given("create inventory").uponReceiving("a request to save inventory")
                 .path("/api/inventory")
                 .body(bodyResponse)
                 .method(RequestMethod.POST.name())
