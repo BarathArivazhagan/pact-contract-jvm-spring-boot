@@ -16,6 +16,14 @@
 	
 </table>
 
+### Pre-requisite: Run the docker compose to start the pact broker 
+
+```
+cd contract-pact-springboot
+docker-compose up
+
+```
+
 
 ### Start with consumer first : As it is consumer driven contract framework. 
 
@@ -143,11 +151,21 @@ public class InventoryProviderTest {
 }
  
 ```
+
+#### Step 7: Run maven build at the provider side
+
+```
+mvn clean install 
+(or)
+mvn test
+```
+
 #### Notes: 
 
 1. Using @PactBroker(host="localhost",port="8500") to define the pact broker host and port.
 2. Using ```SpringRestPactRunner``` to load the spring container using @SpringBootTest
 3. Starting the application server using the line ```new HttpTarget(9050)``` ensure that port matches with the one the application is started as it tests against the pacts downloaded from pact broker.
+4. Mentioning Pact broker url and Pact directory is key to generate pacts at the consumer side.
 
 
 
