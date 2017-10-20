@@ -1,5 +1,5 @@
 # Consumer Driven Contracts Using Pact framework
----------
+
 
 <table>
  <tr>
@@ -10,7 +10,7 @@
 <td>provider application</td>
 </tr>
 <tr>
-<td><b>p<b>pact-contract-consumer </b> </b></td>
+<td><b>pact-contract-consumer</b></td>
 <td>consumer application</td>
 </tr>
 	
