@@ -18,10 +18,8 @@
 
 ### Pre-requisite: Run the docker compose to start the pact broker 
 
-```
-cd contract-pact-springboot
+```cd contract-pact-springboot
 docker-compose up
-
 ```
 
 
