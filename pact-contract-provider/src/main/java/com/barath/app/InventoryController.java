@@ -10,9 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class InventoryController {
 	
+	private InventoryService inventoryService;
+	
+	
+	public InventoryController(InventoryService inventoryService) {
+		this.inventoryService=inventoryService;
+	}
+	
 	@PostMapping(value="/inventory",produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public Inventory saveInventory(@RequestBody Inventory inventory){
-		return inventory;
+		return inventoryService.saveInventory(inventory);
 	}
 
 }
