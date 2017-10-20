@@ -116,23 +116,26 @@ mvn clean install pact:publish
 @Provider("inventory_provider")
 public class InventoryProviderTest {
 	
-	@MockBean
-	private InventoryService inventoryService;
+	  @MockBean
+	  private InventoryService inventoryService;
 
-  @TestTarget
-  public final Target target = new HttpTarget(9050);
+	  @TestTarget
+	  public final Target target = new HttpTarget(9050);
   
-  @State(value="create inventory")
-  public void createInventoryState() throws Exception{
-	  
-	  Inventory inventory=new Inventory("TV", "CHENNAI", 100);
-	  when(inventoryService.saveInventory(any(Inventory.class))).thenReturn(inventory) ;
-  }
+	  @State(value="create inventory")
+	  public void createInventoryState() throws Exception{
+
+	      Inventory inventory=new Inventory("TV", "CHENNAI", 100);
+	      when(inventoryService.saveInventory(any(Inventory.class))).thenReturn(inventory) ;
+	  }
 }
  
 ```
 #### Notes: 
 
+1. Using @PactBroker(host="localhost",port="8500") to define the pact broker host and port.
+2. Using ```SpringRestPactRunner``` to load the spring container using @SpringBootTest
+3. Starting the application server using the line ```new HttpTarget(9050)``` ensure that port matches with the one the application is started as it tests against the pacts downloaded from pact broker.
 
 
 
