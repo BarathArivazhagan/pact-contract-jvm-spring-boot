@@ -51,7 +51,7 @@ docker-compose up
 
 ```
 
-#### Step 3: Write the consumer contract as in below exmaple: 
+#### Step 3: Write the consumer contract as in below example: 
 
 ```
 public class SaveInventoryConsumerTest{
