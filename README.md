@@ -1,9 +1,21 @@
 # Consumer Driven Contracts Using Pact framework
 
+<table>
+ <tr>
+	 <th>Project</th>
+	 <th> Description</th>
+	</tr>
+	<tr>
+		<td><b>pact-contract-provider</b></td>
+		<td>provider application</td>
+	</tr>
+	<tr>
+		<td><b>p<b>pact-contract-consumer </b> </b></td>
+		<td>consumer application</td>
+	</tr>
+	
+	</table>
 
-<b>pact-contract-provider</b>: provider application
-
-<b>pact-contract-consumer </b> : consumer application. 
 
 ### Start with consumer : As it is consumer driven contracts. 
 
@@ -17,7 +29,7 @@
 		    <scope>test</scope>
 		</dependency>
 ```
-#### step 2: Add pact jvm plugin in pom.xml : 
+#### Step 2: Add pact jvm plugin in pom.xml : 
 
 ```
 	      <plugin>
