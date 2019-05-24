@@ -16,33 +16,61 @@
 	
 </table>
 
-### Pre-requisite: Start pact broker 
+#### Compatability Matrix
+
+choose the branch based on below maintained versions.
+
+<table>
+ <tr>
+    <th style="text-align:left">Branch/Version</th>
+    <th style="text-align:left">Spring Boot</th>
+    <th style="text-align:left">Pact Broker</th>
+  </tr>
+  <tr>
+    <td>master</td>
+    <td>2.1.5.RELEASE</td>
+    <td>3.5.7</td>
+  </tr>
+  <tr>
+    <td>v1.0</td>
+    <td>1.5.7.RELEASE</td>
+    <td>3.5.7</td>
+  </tr>  
+</table>
+
+### Run Pact Broker 
+
+- Start pact broker as docker containers
 
 ```
-cd contract-pact-springboot
-docker-compose up
+$ cd contract-pact-springboot
+$ docker-compose up -d
 ```
 
+![pack broker view](images/pact_broker_view.png)
 
-### Start with consumer first : As it is consumer driven contract framework. 
 
-##### Step 1: Add below dependencies in pom.xml
+### Guide for Pact Consumer
 
-```
-                <dependency>
+Start with consumer first, As it is consumer driven contract framework. 
+
+- Add below dependencies in pom.xml
+
+```xml
+         <dependency>
 		    <groupId>au.com.dius</groupId>
-		    <artifactId>pact-jvm-consumer-junit_2.11</artifactId>
-		    <version>3.5.7</version>
+		    <artifactId>pact-jvm-consumer-junit_2.12</artifactId>
+		    <version>3.6.7</version>
 		    <scope>test</scope>
 		</dependency>
 ```
-#### Step 2: Add pact jvm plugin in pom.xml : 
+- Add pact jvm provider maven plugin
 
-```
+```xml
 	      <plugin>
                 <groupId>au.com.dius</groupId>
-                <artifactId>pact-jvm-provider-maven_2.11</artifactId>
-                <version>3.5.7</version>
+                <artifactId>pact-jvm-provider-maven_2.12</artifactId>
+                <version>3.6.7</version>
                 <configuration>
                    <pactBrokerUrl>http://localhost:8500</pactBrokerUrl>
 		   <pactDirectory>target/pacts</pactDirectory>               
@@ -51,9 +79,9 @@ docker-compose up
 
 ```
 
-#### Step 3: Write the consumer contract as in below example: 
+- Write the consumer contract test 
 
-```
+```java
 public class SaveInventoryConsumerTest{
     @Rule
     public PactProviderRuleMk2 mockProvider = new PactProviderRuleMk2("inventory_provider",PactSpecVersion.V3, this);
@@ -80,10 +108,6 @@ public class SaveInventoryConsumerTest{
                 .status(200).body(bodyResponse).toPact();
     }
 
-   
-
-	
-	
 	@Test
 	@PactVerification
 	public void testCreateInventoryConsumer() throws IOException {
@@ -97,37 +121,51 @@ public class SaveInventoryConsumerTest{
     	assertEquals("CHENNAI", JsonPath.read(responseEntity.getBody(),"$.locationName"));
     	assertEquals((Integer)100, (Integer)JsonPath.read(responseEntity.getBody(),"$.quantity"));
 	}
-
-
 ```
 
-#### Step 4: Run maven build to publish the pacts to the pact broker 
-```
+- Run maven build to publish the pacts to the pact broker
+
+```sh
 mvn clean install pact:publish
 ```
 
-#### Step 5: Now go to pact provider application and add the below dependencies
+- Verify the pact broker with the contracts
 
-```
+![pack broker view 1](images/pact_broker_view.png)
+
+![pack broker view 2](images/contract_inventory_request.png)
+
+![pack broker view 3](images/contract_inventory_response.png)
+
+### Guide for Pact Provider 
+
+Now move on to provider side
+
+-  Add the below dependencies in pom.xml
+
+```xml
+    <properties>		
+		<pact.version>3.6.7</pact.version>
+	</properties>
 	<dependency>
 	    <groupId>au.com.dius</groupId>
-	    <artifactId>pact-jvm-provider-junit_2.11</artifactId>
+	    <artifactId>pact-jvm-provider-junit_2.12</artifactId>
 	    <version>${pact.version}</version>
 	    <scope>test</scope>
 	</dependency>
 	 <dependency>
 	    <groupId>au.com.dius</groupId>
-	    <artifactId>pact-jvm-provider-spring_2.11</artifactId>
+	    <artifactId>pact-jvm-provider-spring_2.12</artifactId>
 	    <version>${pact.version}</version>
 	    <scope>test</scope>
 	</dependency>
- 
-
 ```
 
-#### Step 6: Now add the pact provider test case to test against the pacts from the pact broker 
+- Add the pact provider test case
 
-```
+Test case to test against the pacts from the pact broker  to test against the pacts from the pact broker 
+
+```java
 @RunWith(SpringRestPactRunner.class)
 @SpringBootTest(classes=PactContractProviderApplication.class,properties={"spring.profiles.active=test","spring.cloud.config.enabled=false"},webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
@@ -147,17 +185,18 @@ public class InventoryProviderTest {
 	      Inventory inventory=new Inventory("TV", "CHENNAI", 100);
 	      when(inventoryService.saveInventory(any(Inventory.class))).thenReturn(inventory) ;
 	  }
-}
- 
+} 
 ```
 
-#### Step 7: Run maven build at the provider side
+- Run maven build at the provider side
 
-```
+```sh
 mvn clean install 
 (or)
 mvn test
 ```
+
+
 
 #### Notes: 
 

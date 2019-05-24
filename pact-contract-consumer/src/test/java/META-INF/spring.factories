@@ -1,2 +1,0 @@
-org.springframework.cloud.contract.stubrunner.StubDownloaderBuilder=\
-com.barath.app.CustomStubDownloaderBuilder

@@ -1,8 +1,12 @@
 package com.barath.app;
 
-public class Inventory {
+import java.io.Serializable;
+
+public class Inventory implements Serializable {
 	
-		
+	
+	private static final long serialVersionUID = -8508896916092099997L;
+
 	private String productName;
 	
 	private String locationName;
