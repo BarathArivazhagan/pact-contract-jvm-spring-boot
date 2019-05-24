@@ -1,5 +1,6 @@
-# Consumer Driven Contracts Using Pact framework
+# Consumer Driven Contracts Using Pact Framework
 
+#### Projects
 
 <table>
  <tr>
@@ -47,6 +48,8 @@ $ cd contract-pact-springboot
 $ docker-compose up -d
 ```
 
+- View Pact broker [url](http://localhost:8500)
+
 ![pack broker view](images/pact_broker_view.png)
 
 
@@ -57,7 +60,7 @@ Start with consumer first, As it is consumer driven contract framework.
 - Add below dependencies in pom.xml
 
 ```xml
-         <dependency>
+        	 <dependency>
 		    <groupId>au.com.dius</groupId>
 		    <artifactId>pact-jvm-consumer-junit_2.12</artifactId>
 		    <version>3.6.7</version>
@@ -67,7 +70,7 @@ Start with consumer first, As it is consumer driven contract framework.
 - Add pact jvm provider maven plugin
 
 ```xml
-	      <plugin>
+	    <plugin>
                 <groupId>au.com.dius</groupId>
                 <artifactId>pact-jvm-provider-maven_2.12</artifactId>
                 <version>3.6.7</version>
@@ -144,7 +147,7 @@ Now move on to provider side
 -  Add the below dependencies in pom.xml
 
 ```xml
-    <properties>		
+     	<properties>		
 		<pact.version>3.6.7</pact.version>
 	</properties>
 	<dependency>
