@@ -20,7 +20,7 @@ import au.com.dius.pact.provider.spring.SpringRestPactRunner;
 @RunWith(SpringRestPactRunner.class)
 @SpringBootTest(classes=Application.class,properties={"spring.profiles.active=test","spring.cloud.config.enabled=false"},webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-@PactBroker(host="ec2-3-82-235-29.compute-1.amazonaws.com",port="8500")
+@PactBroker(host="${pact.host}",port="${pact.port}")
 @Provider("inventory_provider")
 public class InventoryProviderTest {
 	

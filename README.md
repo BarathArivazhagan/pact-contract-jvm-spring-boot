@@ -75,7 +75,7 @@ Start with consumer first, As it is consumer driven contract framework.
                 <artifactId>pact-jvm-provider-maven_2.12</artifactId>
                 <version>3.6.7</version>
                 <configuration>
-                   <pactBrokerUrl>http://localhost:8500</pactBrokerUrl>
+                   <pactBrokerUrl>${pact.broker.url}</pactBrokerUrl>
 		   <pactDirectory>target/pacts</pactDirectory>               
                 </configuration>
             </plugin>
@@ -129,7 +129,7 @@ public class SaveInventoryConsumerTest{
 - Run maven build to publish the pacts to the pact broker
 
 ```sh
-mvn clean install pact:publish
+mvn clean install pact:publish -Dpact.broker.url=http://localhost:8500
 ```
 
 - Verify the pact broker with the contracts
