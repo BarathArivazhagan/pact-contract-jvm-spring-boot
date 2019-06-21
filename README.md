@@ -129,7 +129,7 @@ public class SaveInventoryConsumerTest{
 - Run maven build to publish the pacts to the pact broker
 
 ```sh
-cd cd pact-contract-consumer
+cd pact-contract-consumer
 mvn clean install pact:publish -Dpact.broker.url=http://localhost:8500
 ```
 
