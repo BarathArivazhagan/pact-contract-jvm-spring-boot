@@ -1,4 +1,4 @@
-# Consumer Driven Contracts Using Pact Framework
+## Consumer Driven Contracts Using Pact Framework
 
 #### Projects
 
@@ -129,6 +129,7 @@ public class SaveInventoryConsumerTest{
 - Run maven build to publish the pacts to the pact broker
 
 ```sh
+cd cd pact-contract-consumer
 mvn clean install pact:publish -Dpact.broker.url=http://localhost:8500
 ```
 
@@ -194,9 +195,10 @@ public class InventoryProviderTest {
 - Run maven build at the provider side
 
 ```sh
-mvn clean install 
+cd pact-contract-provider
+mvn clean install  -Dpact.verifier.publishResults=true
 (or)
-mvn test
+mvn test -Dpact.verifier.publishResults=true
 ```
 
 
