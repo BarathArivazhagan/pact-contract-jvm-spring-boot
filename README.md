@@ -28,7 +28,7 @@ choose the branch based on below maintained versions.
     <th style="text-align:left">Pact Broker</th>
   </tr>
   <tr>
-    <td>v3.0</td>
+    <td>master</td>
     <td>2.2.6.RELEASE</td>
     <td>4.0.10</td>
   </tr>
