@@ -216,13 +216,14 @@ mvn clean install  -Dpact.verifier.publishResults=true
 mvn test -Dpact.verifier.publishResults=true
 ```
 
+![pack broker verficiation result](images/pact_broker_verification_result.png)
 
 
 #### Notes: 
 
 1. Using @PactBroker(host="localhost",port="8500") to define the pact broker host and port.
-2. Using ```SpringRestPactRunner``` to load the spring container using @SpringBootTest
-3. Starting the application server using the line ```new HttpTarget(9050)``` ensure that port matches with the one the application is started as it tests against the pacts downloaded from pact broker.
+2. Using ```SpringRestPactRunner``` to load the spring container using @SpringBootTest.
+3. Starting the application server using the line ```new HttpTarget(9050)```.
 4. Mentioning Pact broker url and Pact directory is key to generate pacts at the consumer side.
 
 
