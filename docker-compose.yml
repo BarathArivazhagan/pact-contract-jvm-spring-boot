@@ -1,9 +1,7 @@
-version: '3'
+version: '3.7'
 services:
   postgres:
-    image: postgres
-    healthcheck:
-      test: psql postgres --command "select 1"
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
@@ -11,10 +9,10 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: postgres
 
-  broker_app:
-    image: dius/pact-broker
+  pact-broker:
+    image: pactfoundation/pact-broker
     ports:
-      - "8500:80"
+      - "8500:8500"
     links:
       - postgres
     environment:
@@ -22,3 +20,5 @@ services:
       PACT_BROKER_DATABASE_PASSWORD: password
       PACT_BROKER_DATABASE_HOST: postgres
       PACT_BROKER_DATABASE_NAME: postgres
+      PACT_BROKER_PORT: "8500"
+      PACT_BROKER_LOG_LEVEL: INFO
